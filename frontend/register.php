@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?)
         ");
 
-        $stmt->execute([$first, $last, $email, $hashed, 1]);
+        $stmt->execute([$first, $last, $email, $hashed, 3]);
 
         $_SESSION['user_id'] = $pdo->lastInsertId();
         header("Location: dashboard.php");
