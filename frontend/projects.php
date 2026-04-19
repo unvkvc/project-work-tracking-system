@@ -17,28 +17,64 @@ $stmt = $pdo->query("
 $projects = $stmt->fetchAll();
 ?>
 
-<h2>Projects</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
 
-<a href="create_project.php">Create new project</a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<br><br>
+<body class="bg-light">
 
-<table border="1" cellpadding="8" cellspacing="0">
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Start date</th>
-        <th>End date</th>
-        <th>Manager</th>
-    </tr>
+<div class="container py-5">
 
-    <?php foreach ($projects as $project): ?>
-        <tr>
-            <td><?php echo $project['name']; ?></td>
-            <td><?php echo $project['description']; ?></td>
-            <td><?php echo $project['start_date']; ?></td>
-            <td><?php echo $project['end_date']; ?></td>
-            <td><?php echo $project['first_name'] . ' ' . $project['last_name']; ?></td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Projects</h2>
+
+        <a href="create_project.php" class="btn btn-success">
+            Create new project
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Manager</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php foreach ($projects as $project): ?>
+                            <tr>
+                                <td><?php echo $project['name']; ?></td>
+                                <td><?php echo $project['description']; ?></td>
+                                <td><?php echo $project['start_date']; ?></td>
+                                <td><?php echo $project['end_date']; ?></td>
+                                <td>
+                                    <?php echo $project['first_name'] . ' ' . $project['last_name']; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

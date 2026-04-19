@@ -45,35 +45,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Create Project</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
 
-<form method="POST">
-    <label>Project name:</label><br>
-    <input type="text" name="name"><br><br>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-    <label>Description:</label><br>
-    <textarea name="description"></textarea><br><br>
+<body class="bg-light">
 
-    <label>Start date:</label><br>
-    <input type="date" name="start_date"><br><br>
+<div class="container py-5">
 
-    <label>End date:</label><br>
-    <input type="date" name="end_date"><br><br>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Create Project</h2>
+        <a href="projects.php" class="btn btn-secondary">Back to projects</a>
+    </div>
 
-    <label>Project manager:</label><br>
-    <select name="manager_id">
-        <option value="">Select manager</option>
-        <?php foreach ($managers as $manager): ?>
-            <option value="<?php echo $manager['id']; ?>">
-                <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+    <div class="card shadow">
+        <div class="card-body">
 
-    <button type="submit">Create Project</button>
-</form>
+            <?php if ($message): ?>
+                <div class="alert alert-info">
+                    <?php echo $message; ?>
+                </div>
+            <?php endif; ?>
 
-<p><?php echo $message; ?></p>
+            <form method="POST">
 
-<br>
-<a href="projects.php">View all projects</a>
+                <div class="mb-3">
+                    <label class="form-label">Project name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Start date</label>
+                        <input type="date" name="start_date" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">End date</label>
+                        <input type="date" name="end_date" class="form-control">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Project manager</label>
+                    <select name="manager_id" class="form-select" required>
+                        <option value="">Select manager</option>
+                        <?php foreach ($managers as $manager): ?>
+                            <option value="<?php echo $manager['id']; ?>">
+                                <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Create Project
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
