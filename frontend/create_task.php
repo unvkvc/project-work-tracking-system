@@ -50,50 +50,110 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Create Task</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
 
-<form method="POST">
-    <label>Task name:</label><br>
-    <input type="text" name="name"><br><br>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-    <label>Description:</label><br>
-    <textarea name="description"></textarea><br><br>
+<body class="bg-light">
 
-    <label>Status:</label><br>
-    <select name="status">
-        <option value="">Select status</option>
-        <option value="todo">To do</option>
-        <option value="in_progress">In progress</option>
-        <option value="done">Done</option>
-    </select><br><br>
+<div class="container py-5">
 
-    <label>Deadline:</label><br>
-    <input type="date" name="deadline"><br><br>
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Create Task</h2>
 
-    <label>Project:</label><br>
-    <select name="project_id">
-        <option value="">Select project</option>
-        <?php foreach ($projects as $project): ?>
-            <option value="<?php echo $project['id']; ?>">
-                <?php echo $project['name']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+        <a href="tasks.php" class="btn btn-outline-secondary">
+            ← Back to Tasks
+        </a>
+    </div>
 
-    <label>Assign to employee:</label><br>
-    <select name="assigned_user_id">
-        <option value="">Select employee</option>
-        <?php foreach ($employees as $employee): ?>
-            <option value="<?php echo $employee['id']; ?>">
-                <?php echo $employee['first_name'] . ' ' . $employee['last_name']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+    <!-- MESSAGE -->
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-info">
+            <?php echo $message; ?>
+        </div>
+    <?php endif; ?>
 
-    <button type="submit">Create Task</button>
-</form>
+    <!-- FORM CARD -->
+    <div class="card shadow-sm">
+        <div class="card-body">
 
-<p><?php echo $message; ?></p>
+            <form method="POST">
 
-<br>
-<a href="tasks.php">View all tasks</a>
+                <!-- TASK NAME -->
+                <div class="mb-3">
+                    <label class="form-label">Task name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="3"></textarea>
+                </div>
+
+                <!-- STATUS + DEADLINE -->
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select" required>
+                            <option value="">Select status</option>
+                            <option value="todo">To do</option>
+                            <option value="in_progress">In progress</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Deadline</label>
+                        <input type="date" name="deadline" class="form-control">
+                    </div>
+
+                </div>
+
+                <!-- PROJECT -->
+                <div class="mb-3">
+                    <label class="form-label">Project</label>
+                    <select name="project_id" class="form-select" required>
+                        <option value="">Select project</option>
+                        <?php foreach ($projects as $project): ?>
+                            <option value="<?php echo $project['id']; ?>">
+                                <?php echo $project['name']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- ASSIGNED USER -->
+                <div class="mb-4">
+                    <label class="form-label">Assign to employee</label>
+                    <select name="assigned_user_id" class="form-select" required>
+                        <option value="">Select employee</option>
+                        <?php foreach ($employees as $employee): ?>
+                            <option value="<?php echo $employee['id']; ?>">
+                                <?php echo $employee['first_name'] . ' ' . $employee['last_name']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- SUBMIT -->
+                <button type="submit" class="btn btn-primary">
+                    Create Task
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

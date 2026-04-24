@@ -28,21 +28,50 @@ $projects = $stmt->fetchAll();
 
 <body class="bg-light">
 
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <a class="navbar-brand" href="dashboard.php">My System</a>
+
+        <div class="ms-auto d-flex gap-2">
+
+            <a href="tasks.php" class="btn btn-outline-light btn-sm">
+                Tasks
+            </a>
+
+            <a href="dashboard.php" class="btn btn-outline-light btn-sm">
+                Dashboard
+            </a>
+
+            <a href="logout.php" class="btn btn-danger btn-sm">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+</nav>
+
+<!-- PAGE CONTENT -->
 <div class="container py-5">
 
+    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Projects</h2>
 
         <a href="create_project.php" class="btn btn-success">
-            Create new project
+            + Create Project
         </a>
     </div>
 
-    <div class="card shadow">
-        <div class="card-body">
+    <!-- CARD -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
 
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
+
+                <table class="table table-hover table-striped mb-0 align-middle">
 
                     <thead class="table-dark">
                         <tr>
@@ -55,9 +84,18 @@ $projects = $stmt->fetchAll();
                     </thead>
 
                     <tbody>
+
+                        <?php if (count($projects) === 0): ?>
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    No projects found
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+
                         <?php foreach ($projects as $project): ?>
                             <tr>
-                                <td><?php echo $project['name']; ?></td>
+                                <td><strong><?php echo $project['name']; ?></strong></td>
                                 <td><?php echo $project['description']; ?></td>
                                 <td><?php echo $project['start_date']; ?></td>
                                 <td><?php echo $project['end_date']; ?></td>
@@ -66,9 +104,11 @@ $projects = $stmt->fetchAll();
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+
                     </tbody>
 
                 </table>
+
             </div>
 
         </div>

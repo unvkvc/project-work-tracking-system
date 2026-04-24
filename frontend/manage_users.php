@@ -47,42 +47,109 @@ $stmt = $pdo->query("SELECT id, role_name FROM roles");
 $roles = $stmt->fetchAll();
 ?>
 
-<h2>Manage Users</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Users</title>
 
-<p><?php echo $message; ?></p>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<table border="1" cellpadding="8">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Current Role</th>
-        <th>Change Role</th>
-    </tr>
+<body class="bg-light">
 
-    <?php foreach ($users as $user): ?>
-        <tr>
-            <td><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></td>
-            <td><?php echo $user['email']; ?></td>
-            <td><?php echo $user['role_name']; ?></td>
-            <td>
-                <form method="POST">
-                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+<div class="container py-5">
 
-                    <select name="role_id">
-                        <?php foreach ($roles as $role): ?>
-                            <option value="<?php echo $role['id']; ?>"
-                                <?php if ($role['id'] == $user['role_id']) echo 'selected'; ?>>
-                                <?php echo $role['role_name']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Manage Users</h2>
 
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+        <a href="dashboard.php" class="btn btn-outline-secondary">
+            ← Back to Dashboard
+        </a>
+    </div>
 
-<br>
-<a href="dashboard.php">Back to dashboard</a>
+    <!-- MESSAGE -->
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-success">
+            <?php echo $message; ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- CARD -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-striped mb-0 align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Current Role</th>
+                            <th>Change Role</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    <?php echo $user['first_name'] . ' ' . $user['last_name']; ?>
+                                </strong>
+                            </td>
+
+                            <td><?php echo $user['email']; ?></td>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    <?php echo $user['role_name']; ?>
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <form method="POST" class="d-flex gap-2">
+
+                                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+
+                                    <select name="role_id" class="form-select form-select-sm">
+
+                                        <?php foreach ($roles as $role): ?>
+                                            <option value="<?php echo $role['id']; ?>"
+                                                <?php if ($role['id'] == $user['role_id']) echo 'selected'; ?>>
+                                                <?php echo $role['role_name']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+
+                                    </select>
+
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        Update
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
