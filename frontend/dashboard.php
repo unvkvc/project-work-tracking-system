@@ -18,25 +18,49 @@ if (!isset($_SESSION['user_id'])) {
 
 <body class="bg-light">
 
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">My System</a>
+
+        <div class="ms-auto">
+            <a href="logout.php" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
 <div class="container py-5">
 
-    <div class="card shadow">
+    <div class="card shadow-sm">
         <div class="card-body text-center">
 
             <h2 class="mb-3">Dashboard</h2>
 
             <p class="mb-4">
-                You are logged in. User ID:
+                Logged in as User ID:
                 <strong><?php echo $_SESSION['user_id']; ?></strong>
             </p>
 
-            <a href="projects.php" class="btn btn-primary me-2">
-                View Projects
-            </a>
+            <div class="d-grid gap-3 col-6 mx-auto">
 
-            <a href="logout.php" class="btn btn-danger">
-                Logout
-            </a>
+                <a href="projects.php" class="btn btn-primary">
+                    View Projects
+                </a>
+
+                <a href="create_project.php" class="btn btn-success">
+                    Create Project
+                </a>
+
+                <a href="create_task.php" class="btn btn-warning">
+                    Create Task
+                </a>
+
+                <a href="tasks.php" class="btn btn-info">
+                    View Tasks
+                </a>
+
+            </div>
 
         </div>
     </div>
