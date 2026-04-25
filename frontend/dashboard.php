@@ -3,7 +3,7 @@ session_start();
 
 require '../backend/db.php';
 
-$stmt = $pdo->prepare("SELECT role_id FROM users WHERE id = ?");
+$stmt = $pdo->prepare("SELECT role_id, first_name, last_name FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 
@@ -45,7 +45,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <p class="mb-4">
                 Logged in as User ID:
-                <strong><?php echo $_SESSION['user_id']; ?></strong>
+                <strong><?php echo $user['first_name'] . ' ' . $user['last_name']; ?></strong>
             </p>
 
             <div class="d-grid gap-3 col-6 mx-auto">
@@ -72,7 +72,7 @@ if (!isset($_SESSION['user_id'])) {
 
                 <a href="time_entries.php" class="btn btn-secondary">
                     View Time Entries
-                </a>
+            </a>
 
             <?php if ($user['role_id'] == 1): ?>
                 <a href="manage_users.php" class="btn btn-dark">
