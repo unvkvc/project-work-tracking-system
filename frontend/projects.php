@@ -51,6 +51,7 @@ $projects = $stmt->fetchAll();
                             <th>Start date</th>
                             <th>End date</th>
                             <th>Manager</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -64,6 +65,10 @@ $projects = $stmt->fetchAll();
                                 <td>
                                     <?php echo $project['first_name'] . ' ' . $project['last_name']; ?>
                                 </td>
+                                <td>
+                                    <a href="edit_projects.php?id=<?php echo $project['id']; ?>" class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
