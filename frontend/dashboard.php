@@ -66,6 +66,14 @@ if (!isset($_SESSION['user_id'])) {
                     View Tasks
                 </a>
 
+                <a href="log_time.php" class="btn btn-secondary">
+                    Log Time
+                </a>
+
+                <a href="time_entries.php" class="btn btn-secondary">
+                    View Time Entries
+                </a>
+
             <?php if ($user['role_id'] == 1): ?>
                 <a href="manage_users.php" class="btn btn-dark">
                     Manage Users
