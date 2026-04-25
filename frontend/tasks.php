@@ -16,6 +16,7 @@ $user = $stmt->fetch();
 if ($user['role_id'] == 3) {
     $stmt = $pdo->prepare("
         SELECT 
+            tasks.id AS task_id,
             tasks.name AS task_name,
             tasks.description,
             tasks.status,
@@ -32,7 +33,8 @@ if ($user['role_id'] == 3) {
     $stmt->execute([$_SESSION['user_id']]);
 } else {
     $stmt = $pdo->query("
-        SELECT 
+        SELECT
+            tasks.id AS task_id,
             tasks.name AS task_name,
             tasks.description,
             tasks.status,
@@ -129,6 +131,7 @@ $tasks = $stmt->fetchAll();
                             <th>Deadline</th>
                             <th>Project</th>
                             <th>Assigned user</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -136,8 +139,8 @@ $tasks = $stmt->fetchAll();
 
                     <?php if (count($tasks) === 0): ?>
                         <tr>
-                            <td colspan="6" class="text-center py-4 text-muted">
-                                No tasks found
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                You don't have any tasks assigned
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -186,6 +189,12 @@ $tasks = $stmt->fetchAll();
 
                             <td>
                                 <?php echo $task['first_name'] . ' ' . $task['last_name']; ?>
+                            </td>
+
+                            <td>
+                                <a href="edit_task.php?id=<?php echo $task['task_id']; ?>" class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
                             </td>
 
                         </tr>
