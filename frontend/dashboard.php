@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+require '../backend/db.php';
+
+$stmt = $pdo->prepare("SELECT role_id FROM users WHERE id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch();
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -59,6 +65,12 @@ if (!isset($_SESSION['user_id'])) {
                 <a href="tasks.php" class="btn btn-info">
                     View Tasks
                 </a>
+
+            <?php if ($user['role_id'] == 1): ?>
+                <a href="manage_users.php" class="btn btn-dark">
+                    Manage Users
+                </a>
+            <?php endif; ?>
 
             </div>
 

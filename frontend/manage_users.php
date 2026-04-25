@@ -26,10 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_POST['user_id'];
     $new_role = $_POST['role_id'];
 
-    $stmt = $pdo->prepare("UPDATE users SET role_id = ? WHERE id = ?");
-    $stmt->execute([$new_role, $user_id]);
+    // get current role of selected user
+    $stmt = $pdo->prepare("SELECT role_id FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $selectedUser = $stmt->fetch();
 
-    $message = "Role updated.";
+    if ($selectedUser['role_id'] == $new_role) {
+        $message = "No changes were made.";
+    } else {
+        $stmt = $pdo->prepare("UPDATE users SET role_id = ? WHERE id = ?");
+        $stmt->execute([$new_role, $user_id]);
+
+        $message = "Role updated.";
+    }
 }
 
 // fetch all users + role names
