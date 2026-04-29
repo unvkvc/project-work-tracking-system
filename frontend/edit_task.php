@@ -61,23 +61,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Edit Task</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<p><?php echo $message; ?></p>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<form method="POST">
-    <label>Status:</label><br>
-    <select name="status">
-        <option value="todo" <?php if ($task['status'] == 'todo') echo 'selected'; ?>>To do</option>
-        <option value="in_progress" <?php if ($task['status'] == 'in_progress') echo 'selected'; ?>>In progress</option>
-        <option value="done" <?php if ($task['status'] == 'done') echo 'selected'; ?>>Done</option>
-    </select><br><br>
+<body class="bg-light">
 
-    <label>Description / completed work:</label><br>
-    <textarea name="description"><?php echo $task['description']; ?></textarea><br><br>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-    <button type="submit">Update Task</button>
-</form>
+            <div class="card shadow">
+                <div class="card-body">
 
-<br>
-<a href="tasks.php">Back to tasks</a>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="mb-0">Edit Task</h2>
+                        <a href="tasks.php" class="btn btn-outline-dark btn-sm">Back</a>
+                    </div>
+
+                    <?php if ($message): ?>
+                        <div class="alert alert-info">
+                            <?php echo $message; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST">
+
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="todo" <?php if ($task['status'] == 'todo') echo 'selected'; ?>>
+                                    To do
+                                </option>
+                                <option value="in_progress" <?php if ($task['status'] == 'in_progress') echo 'selected'; ?>>
+                                    In progress
+                                </option>
+                                <option value="done" <?php if ($task['status'] == 'done') echo 'selected'; ?>>
+                                    Done
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Description / Completed Work</label>
+                            <textarea name="description" class="form-control" rows="4"><?php echo htmlspecialchars($task['description']); ?></textarea>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                Update Task
+                            </button>
+
+                            <a href="tasks.php" class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
