@@ -72,47 +72,111 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h2>Log Time</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Time</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<p><?php echo $message; ?></p>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<form method="POST">
-    <label>Project / Task:</label><br>
-    <select name="task_id">
-        <option value="">Select task</option>
-        <?php foreach ($tasks as $task): ?>
-            <option value="<?php echo $task['task_id']; ?>">
-                <?php echo $task['project_name'] . ' - ' . $task['task_name']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+<body class="bg-light">
 
-    <label>Date:</label><br>
-    <input type="date" name="work_date"><br><br>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-    <label>Hours worked:</label><br>
-    <label>Hours:</label><br>
-<select name="hours">
-    <?php for ($i = 0; $i <= 12; $i++): ?>
-        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-    <?php endfor; ?>
-</select>
+            <div class="card shadow">
+                <div class="card-body">
 
-<label>Minutes:</label><br>
-<select name="minutes">
-    <option value="0">00</option>
-    <option value="15">15</option>
-    <option value="30">30</option>
-    <option value="45">45</option>
-</select>
-<br><br>
+                    <h2 class="card-title mb-4">Log Time</h2>
 
-    <label>Description:</label><br>
-    <textarea name="description"></textarea><br><br>
+                    <?php if ($message): ?>
+                        <div class="alert alert-info">
+                            <?php echo $message; ?>
+                        </div>
+                    <?php endif; ?>
 
-    <button type="submit">Save Time</button>
-</form>
+                    <form method="POST">
 
-<br>
-<a href="time_entries.php">View Time Entries</a><br>
-<a href="dashboard.php">Back to Dashboard</a>
+                        <!-- Task -->
+                        <div class="mb-3">
+                            <label class="form-label">Project / Task</label>
+                            <select name="task_id" class="form-select">
+                                <option value="">Select task</option>
+                                <?php foreach ($tasks as $task): ?>
+                                    <option value="<?php echo $task['task_id']; ?>">
+                                        <?php echo $task['project_name'] . ' - ' . $task['task_name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" name="work_date" class="form-control">
+                        </div>
+
+                        <!-- Time -->
+                        <div class="mb-3">
+                            <label class="form-label">Hours Worked</label>
+                            <div class="row">
+                                <div class="col">
+                                    <select name="hours" class="form-select">
+                                        <?php for ($i = 0; $i <= 12; $i++): ?>
+                                            <option value="<?php echo $i; ?>"><?php echo $i; ?> h</option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select name="minutes" class="form-select">
+                                        <option value="0">00 min</option>
+                                        <option value="15">15 min</option>
+                                        <option value="30">30 min</option>
+                                        <option value="45">45 min</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                Save Time
+                            </button>
+
+                            <div>
+                                <a href="time_entries.php" class="btn btn-outline-secondary btn-sm">
+                                    View Entries
+                                </a>
+                                <a href="dashboard.php" class="btn btn-outline-dark btn-sm">
+                                    Dashboard
+                                </a>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+

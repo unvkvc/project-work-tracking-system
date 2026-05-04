@@ -53,37 +53,87 @@ if ($user['role_id'] == 3) {
 $entries = $stmt->fetchAll();
 ?>
 
-<h2>Time Entries</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Entries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<a href="log_time.php">Log Time</a>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<br><br>
+<body class="bg-light">
 
-<table border="1" cellpadding="8" cellspacing="0">
-    <tr>
-        <th>Date</th>
-        <th>Project</th>
-        <th>Task</th>
-        <th>User</th>
-        <th>Hours</th>
-        <th>Description</th>
-        <th>Action</th>
-    </tr>
+<div class="container mt-5">
 
-    <?php foreach ($entries as $entry): ?>
-        <tr>
-            <td><?php echo $entry['work_date']; ?></td>
-            <td><?php echo $entry['project_name']; ?></td>
-            <td><?php echo $entry['task_name']; ?></td>
-            <td><?php echo $entry['first_name'] . ' ' . $entry['last_name']; ?></td>
-            <td><?php echo $entry['hours_worked']; ?></td>
-            <td><?php echo $entry['description']; ?></td>
-            <td>
-                <a href="edit_time_entry.php?id=<?php echo $entry['time_entry_id']; ?>">Edit</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Time Entries</h2>
+        <div>
+            <a href="log_time.php" class="btn btn-primary btn-sm">+ Log Time</a>
+            <a href="dashboard.php" class="btn btn-outline-dark btn-sm">Dashboard</a>
+        </div>
+    </div>
 
-<br>
-<a href="dashboard.php">Back to Dashboard</a>
+    <div class="card shadow">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Project</th>
+                            <th>Task</th>
+                            <th>User</th>
+                            <th>Hours</th>
+                            <th>Description</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php if (count($entries) > 0): ?>
+                            <?php foreach ($entries as $entry): ?>
+                                <tr>
+                                    <td><?php echo $entry['work_date']; ?></td>
+                                    <td><?php echo $entry['project_name']; ?></td>
+                                    <td><?php echo $entry['task_name']; ?></td>
+                                    <td>
+                                        <?php echo $entry['first_name'] . ' ' . $entry['last_name']; ?>
+                                    </td>
+                                    <td><?php echo $entry['hours_worked']; ?></td>
+                                    <td><?php echo $entry['description']; ?></td>
+                                    <td class="text-end">
+                                        <a href="edit_time_entry.php?id=<?php echo $entry['time_entry_id']; ?>" 
+                                           class="btn btn-sm btn-outline-primary">
+                                           Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">
+                                    No time entries found.
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
