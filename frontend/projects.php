@@ -80,6 +80,7 @@ $projects = $stmt->fetchAll();
                             <th>Start date</th>
                             <th>End date</th>
                             <th>Manager</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -96,17 +97,23 @@ $projects = $stmt->fetchAll();
 
                         <?php foreach ($projects as $project): ?>
                             <tr>
-                                <td><strong><?php echo $project['name']; ?></strong></td>
+                                <td><?php echo $project['name']; ?></td>
                                 <td><?php echo $project['description']; ?></td>
                                 <td><?php echo $project['start_date']; ?></td>
                                 <td><?php echo $project['end_date']; ?></td>
+                                <td><?php echo $project['first_name'] . ' ' . $project['last_name']; ?></td>
                                 <td>
-                                    <?php echo $project['first_name'] . ' ' . $project['last_name']; ?>
+                                    <?php if ($project['status'] == 'active'): ?>
+                                        <span class="badge bg-success">Active</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
                                     <a href="edit_projects.php?id=<?php echo $project['id']; ?>" class="btn btn-sm btn-outline-primary">
                                         Edit
                                     </a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
 
