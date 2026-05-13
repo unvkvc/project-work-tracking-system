@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="mb-3">
                             <label class="form-label">Name</label>
                             <input type="text" name="name" class="form-control"
-                                   value="<?php echo htmlspecialchars($project['name']); ?>">
+                                   value="<?php echo htmlspecialchars($project['name']); ?>" required>
                         </div>
 
                         <!-- Description -->
@@ -133,13 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Start Date</label>
                                 <input type="date" name="start_date" class="form-control"
-                                       value="<?php echo $project['start_date']; ?>">
+                                       value="<?php echo !empty($project['start_date']) ? date('Y-m-d', strtotime($project['start_date'])) : ''; ?>"
+                                       required>
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">End Date</label>
                                 <input type="date" name="end_date" class="form-control"
-                                       value="<?php echo $project['end_date']; ?>">
+                                       value="<?php echo !empty($project['end_date']) ? date('Y-m-d', strtotime($project['end_date'])) : ''; ?>">
                             </div>
                         </div>
 

@@ -32,14 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $manager_id = $_POST['manager_id'];
 
     if (empty($name) || empty($start_date) || empty($manager_id)) {
-        $message = "Name, start date, and manager are required.";
+        $message = "Name, start date and manager are required.";
     } else {
         $stmt = $pdo->prepare("
             INSERT INTO projects (name, description, start_date, end_date, manager_id)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         ");
 
-        $stmt->execute([$name, $description, $start_date, $end_date, $manager_id]);
+        $stmt->execute([
+            $name,
+            $description,
+            $start_date,
+            $end_date,
+            $manager_id
+        ]);
+
         $message = "Project created successfully.";
     }
 }

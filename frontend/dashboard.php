@@ -74,6 +74,10 @@ if (!isset($_SESSION['user_id'])) {
                     View Time Entries
                 </a>
 
+                <a href="project_progress.php" class="btn btn-secondary">
+                    See Project Progress
+                </a>
+
             <?php if ($user['role_id'] == 1): ?>
                 <a href="manage_users.php" class="btn btn-dark">
                     Manage Users

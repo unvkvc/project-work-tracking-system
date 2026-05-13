@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Fetch projects list
 $stmt = $pdo->query("
     SELECT projects.*, users.first_name, users.last_name
     FROM projects
@@ -15,6 +16,34 @@ $stmt = $pdo->query("
 ");
 
 $projects = $stmt->fetchAll();
+
+// Fetch project progress data
+$stmt = $pdo->query("
+    SELECT 
+        projects.id,
+        projects.name,
+        projects.status,
+        COUNT(DISTINCT tasks.id) AS total_tasks,
+        COUNT(
+            DISTINCT CASE
+                WHEN tasks.status IN ('done', 'completed')
+                THEN tasks.id
+            END
+        ) AS completed_tasks,
+        COALESCE(SUM(time_entries.hours_worked), 0) AS total_hours
+    FROM projects
+    LEFT JOIN tasks
+        ON tasks.project_id = projects.id
+    LEFT JOIN time_entries
+        ON time_entries.task_id = tasks.id
+    GROUP BY
+        projects.id,
+        projects.name,
+        projects.status
+    ORDER BY projects.id DESC
+");
+
+$projectProgress = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +85,7 @@ $projects = $stmt->fetchAll();
 <!-- PAGE CONTENT -->
 <div class="container py-5">
 
-    <!-- HEADER -->
+    <!-- PROJECTS HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Projects</h2>
 
@@ -65,8 +94,8 @@ $projects = $stmt->fetchAll();
         </a>
     </div>
 
-    <!-- CARD -->
-    <div class="card shadow-sm">
+    <!-- PROJECTS TABLE -->
+    <div class="card shadow-sm mb-5">
         <div class="card-body p-0">
 
             <div class="table-responsive">
@@ -89,7 +118,7 @@ $projects = $stmt->fetchAll();
 
                         <?php if (count($projects) === 0): ?>
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">
+                                <td colspan="7" class="text-center py-4 text-muted">
                                     No projects found
                                 </td>
                             </tr>
@@ -97,7 +126,7 @@ $projects = $stmt->fetchAll();
 
                         <?php foreach ($projects as $project): ?>
                             <tr>
-                                <td><?php echo $project['name']; ?></td>
+                                <td><strong><?php echo $project['name']; ?></strong></td>
                                 <td><?php echo $project['description']; ?></td>
                                 <td><?php echo $project['start_date']; ?></td>
                                 <td><?php echo $project['end_date']; ?></td>
@@ -115,6 +144,107 @@ $projects = $stmt->fetchAll();
                                     </a>
                                 </td>
                             </tr>
+                        <?php endforeach; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PROJECT PROGRESS HEADER -->
+    <div class="mb-4">
+        <h2 class="mb-0">Project Progress</h2>
+    </div>
+
+    <!-- PROJECT PROGRESS TABLE -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-striped mb-0 align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Project</th>
+                            <th>Status</th>
+                            <th>Total Tasks</th>
+                            <th>Completed Tasks</th>
+                            <th>Progress</th>
+                            <th>Logged Hours</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <?php if (count($projectProgress) === 0): ?>
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">
+                                    No project progress found
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+
+                        <?php foreach ($projectProgress as $project): ?>
+
+                            <?php
+                            $totalTasks = (int) $project['total_tasks'];
+                            $completedTasks = (int) $project['completed_tasks'];
+                            $totalHours = (float) $project['total_hours'];
+
+                            $progress = 0;
+
+                            if ($totalTasks > 0) {
+                                $progress = round(($completedTasks / $totalTasks) * 100);
+                            }
+
+                            if ($progress >= 100) {
+                                $progressColor = 'success';
+                            } elseif ($progress >= 50) {
+                                $progressColor = 'warning';
+                            } else {
+                                $progressColor = 'danger';
+                            }
+                            ?>
+
+                            <tr>
+                                <td>
+                                    <strong><?php echo $project['name']; ?></strong>
+                                </td>
+
+                                <td>
+                                    <?php if ($project['status'] === 'active'): ?>
+                                        <span class="badge bg-success">Active</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td><?php echo $totalTasks; ?></td>
+
+                                <td><?php echo $completedTasks; ?></td>
+
+                                <td style="min-width: 200px;">
+                                    <?php if ($totalTasks == 0): ?>
+                                        <span class="text-muted">No tasks</span>
+                                    <?php else: ?>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-<?php echo $progressColor; ?>"
+                                                 role="progressbar"
+                                                 style="width: <?php echo $progress; ?>%;">
+                                                <?php echo $progress; ?>%
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td><?php echo number_format($totalHours, 2); ?></td>
+                            </tr>
+
                         <?php endforeach; ?>
 
                     </tbody>
