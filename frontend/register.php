@@ -35,58 +35,182 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #f4f6f9, #eef2f7);
+        }
+
+        .register-card {
+            width: 430px;
+            border: 0;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .register-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .form-control {
+            border: 1px solid #dfe3e8;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+        }
+
+        .register-btn {
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .register-btn:hover {
+            transform: scale(1.02);
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow p-4" style="width: 400px;">
-        
-        <h3 class="text-center mb-4">Create Account</h3>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
 
-        <?php if ($message): ?>
-            <div class="alert alert-danger">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
+    <!-- CARD -->
+    <div class="card register-card shadow-lg p-4">
 
-        <form method="POST">
+        <div class="card-body">
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">First name</label>
-                    <input name="first_name" class="form-control" required>
+            <!-- HEADER -->
+            <div class="text-center mb-4">
+
+                <div class="mb-3">
+
+                    <i class="bi bi-person-plus-fill text-primary"
+                       style="font-size: 3rem;"></i>
+
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Last name</label>
-                    <input name="last_name" class="form-control" required>
+                <h2 class="fw-bold text-dark">
+                    Create Account
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Register a new account
+                </p>
+
+            </div>
+
+            <!-- MESSAGE -->
+            <?php if ($message): ?>
+
+                <div class="alert alert-danger rounded-3">
+                    <?php echo $message; ?>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input name="email" type="email" class="form-control" required>
-            </div>
+            <?php endif; ?>
 
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input name="password" type="password" class="form-control" required>
-            </div>
+            <!-- FORM -->
+            <form method="POST">
 
-            <button type="submit" class="btn btn-primary w-100">
-                Register
-            </button>
-        </form>
+                <!-- NAME -->
+                <div class="row">
 
-        <p class="text-center mt-3 mb-0">
-            Already have an account?
-            <a href="login.php">Login</a>
-        </p>
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-semibold text-secondary">
+                            First name
+                        </label>
+
+                        <input name="first_name"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-semibold text-secondary">
+                            Last name
+                        </label>
+
+                        <input name="last_name"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                </div>
+
+                <!-- EMAIL -->
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold text-secondary">
+                        Email
+                    </label>
+
+                    <input name="email"
+                           type="email"
+                           class="form-control"
+                           placeholder="example@email.com"
+                           required>
+
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold text-secondary">
+                        Password
+                    </label>
+
+                    <input name="password"
+                           type="password"
+                           class="form-control"
+                           placeholder="Enter password"
+                           required>
+
+                </div>
+
+                <!-- BUTTON -->
+                <button type="submit"
+                        class="btn btn-primary w-100 register-btn">
+
+                    <i class="bi bi-check-circle"></i> Register
+
+                </button>
+
+            </form>
+
+            <!-- LOGIN -->
+            <p class="text-center mt-4 mb-0 text-muted">
+
+                Already have an account?
+
+                <a href="login.php"
+                   class="text-decoration-none fw-semibold">
+
+                    Login
+
+                </a>
+
+            </p>
+
+        </div>
 
     </div>
+
 </div>
 
 </body>

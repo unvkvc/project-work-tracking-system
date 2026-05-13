@@ -70,70 +70,153 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #dfe3e8;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<div class="container py-5">
+
     <div class="row justify-content-center">
-        <div class="col-md-8">
 
-            <div class="card shadow">
-                <div class="card-body">
+        <div class="col-lg-8">
 
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="mb-0">Edit Task</h2>
-                        <a href="tasks.php" class="btn btn-outline-dark btn-sm">Back</a>
+            <!-- CARD -->
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-5">
+
+                    <!-- HEADER -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <h2 class="mb-0 fw-bold text-warning">
+                            <i class="bi bi-pencil-square"></i> Edit Task
+                        </h2>
+
+                        <a href="tasks.php"
+                           class="btn btn-outline-secondary rounded-3">
+
+                            Back
+
+                        </a>
+
                     </div>
 
+                    <!-- MESSAGE -->
                     <?php if ($message): ?>
-                        <div class="alert alert-info">
+
+                        <div class="alert alert-info rounded-3 mb-4">
                             <?php echo $message; ?>
                         </div>
+
                     <?php endif; ?>
 
                     <form method="POST">
 
-                        <!-- Status -->
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-select">
-                                <option value="todo" <?php if ($task['status'] == 'todo') echo 'selected'; ?>>
+                        <!-- STATUS -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold text-secondary">
+                                Status
+                            </label>
+
+                            <select name="status"
+                                    class="form-select form-select-lg rounded-3">
+
+                                <option value="todo"
+                                    <?php if ($task['status'] == 'todo') echo 'selected'; ?>>
+
                                     To do
+
                                 </option>
-                                <option value="in_progress" <?php if ($task['status'] == 'in_progress') echo 'selected'; ?>>
+
+                                <option value="in_progress"
+                                    <?php if ($task['status'] == 'in_progress') echo 'selected'; ?>>
+
                                     In progress
+
                                 </option>
-                                <option value="done" <?php if ($task['status'] == 'done') echo 'selected'; ?>>
+
+                                <option value="done"
+                                    <?php if ($task['status'] == 'done') echo 'selected'; ?>>
+
                                     Done
+
                                 </option>
+
                             </select>
+
                         </div>
 
-                        <!-- Description -->
-                        <div class="mb-3">
-                            <label class="form-label">Description / Completed Work</label>
-                            <textarea name="description" class="form-control" rows="4"><?php echo htmlspecialchars($task['description']); ?></textarea>
+                        <!-- DESCRIPTION -->
+                        <div class="mb-5">
+
+                            <label class="form-label fw-semibold text-secondary">
+                                Description / Completed Work
+                            </label>
+
+                            <textarea name="description"
+                                      class="form-control rounded-3"
+                                      rows="5"><?php echo htmlspecialchars($task['description']); ?></textarea>
+
                         </div>
 
-                        <!-- Submit -->
+                        <!-- BUTTONS -->
                         <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary">
-                                Update Task
+
+                            <button type="submit"
+                                    class="btn btn-warning px-4 py-2 rounded-3 fw-semibold">
+
+                                <i class="bi bi-check-circle"></i> Update Task
+
                             </button>
 
-                            <a href="tasks.php" class="btn btn-outline-secondary">
+                            <a href="tasks.php"
+                               class="btn btn-light border px-4 py-2 rounded-3">
+
                                 Cancel
+
                             </a>
+
                         </div>
 
                     </form>
 
                 </div>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
 <!-- Bootstrap JS -->

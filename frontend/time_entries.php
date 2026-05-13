@@ -62,27 +62,120 @@ $entries = $stmt->fetchAll();
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .card {
+            border: 0;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .table thead th {
+            font-weight: 600;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Time Entries</h2>
-        <div>
-            <a href="log_time.php" class="btn btn-primary btn-sm">+ Log Time</a>
-            <a href="dashboard.php" class="btn btn-outline-dark btn-sm">Dashboard</a>
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" href="dashboard.php">
+            <i class="bi bi-kanban"></i> My System
+        </a>
+
+        <div class="ms-auto d-flex gap-2">
+
+            <a href="projects.php"
+               class="btn btn-outline-success btn-sm rounded-3">
+
+                Projects
+
+            </a>
+
+            <a href="tasks.php"
+               class="btn btn-outline-warning btn-sm rounded-3">
+
+                Tasks
+
+            </a>
+
+            <a href="dashboard.php"
+               class="btn btn-outline-light btn-sm rounded-3">
+
+                Dashboard
+
+            </a>
+
+            <a href="logout.php"
+               class="btn btn-danger btn-sm rounded-3">
+
+                Logout
+
+            </a>
+
         </div>
+
     </div>
 
-    <div class="card shadow">
-        <div class="card-body">
+</nav>
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="mb-0 fw-bold text-primary">
+            <i class="bi bi-clock-history"></i> Time Entries
+        </h2>
+
+        <div class="d-flex gap-2">
+
+            <a href="log_time.php"
+               class="btn btn-primary rounded-3">
+
+                <i class="bi bi-plus-circle"></i> Log Time
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="card shadow-lg">
+
+        <div class="card-body p-4">
 
             <div class="table-responsive">
+
                 <table class="table table-hover align-middle">
 
-                    <thead class="table-dark">
+                    <thead class="table-light">
+
                         <tr>
                             <th>Date</th>
                             <th>Project</th>
@@ -92,47 +185,88 @@ $entries = $stmt->fetchAll();
                             <th>Description</th>
                             <th class="text-end">Action</th>
                         </tr>
+
                     </thead>
 
                     <tbody>
-                        <?php if (count($entries) > 0): ?>
-                            <?php foreach ($entries as $entry): ?>
-                                <tr>
-                                    <td><?php echo $entry['work_date']; ?></td>
-                                    <td><?php echo $entry['project_name']; ?></td>
-                                    <td><?php echo $entry['task_name']; ?></td>
-                                    <td>
-                                        <?php echo $entry['first_name'] . ' ' . $entry['last_name']; ?>
-                                    </td>
-                                    <td><?php echo $entry['hours_worked']; ?></td>
-                                    <td><?php echo $entry['description']; ?></td>
-                                    <td class="text-end">
-                                        <a href="edit_time_entry.php?id=<?php echo $entry['time_entry_id']; ?>" 
-                                           class="btn btn-sm btn-outline-primary">
-                                           Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
+
+                    <?php if (count($entries) > 0): ?>
+
+                        <?php foreach ($entries as $entry): ?>
+
                             <tr>
-                                <td colspan="7" class="text-center text-muted">
-                                    No time entries found.
+
+                                <td>
+                                    <?php echo $entry['work_date']; ?>
                                 </td>
+
+                                <td class="fw-semibold">
+                                    <?php echo $entry['project_name']; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $entry['task_name']; ?>
+                                </td>
+
+                                <td>
+                                    <?php echo $entry['first_name'] . ' ' . $entry['last_name']; ?>
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-primary">
+
+                                        <?php echo $entry['hours_worked']; ?> h
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    <?php echo $entry['description']; ?>
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a href="edit_time_entry.php?id=<?php echo $entry['time_entry_id']; ?>"
+                                       class="btn btn-sm btn-outline-primary rounded-3">
+
+                                        <i class="bi bi-pencil"></i> Edit
+
+                                    </a>
+
+                                </td>
+
                             </tr>
-                        <?php endif; ?>
+
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center text-muted py-4">
+
+                                No time entries found.
+
+                            </td>
+
+                        </tr>
+
+                    <?php endif; ?>
+
                     </tbody>
 
                 </table>
+
             </div>
 
         </div>
+
     </div>
 
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -61,85 +61,165 @@ $roles = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <title>Manage Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            border: 0;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .table thead th {
+            font-weight: 600;
+            border-bottom: none;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            padding: 8px 10px;
+            font-size: 0.8rem;
+        }
+
+        .form-select:focus {
+            box-shadow: 0 0 0 0.15rem rgba(25,135,84,.15);
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
 <div class="container py-5">
 
     <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Manage Users</h2>
 
-        <a href="dashboard.php" class="btn btn-outline-secondary">
-            ← Back to Dashboard
+        <h2 class="mb-0 fw-bold text-dark">
+            <i class="bi bi-people-fill"></i> Manage Users
+        </h2>
+
+        <a href="dashboard.php"
+           class="btn btn-outline-secondary rounded-3">
+
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+
         </a>
+
     </div>
 
     <!-- MESSAGE -->
     <?php if (!empty($message)): ?>
-        <div class="alert alert-success">
+
+        <div class="alert alert-success rounded-3">
             <?php echo $message; ?>
         </div>
+
     <?php endif; ?>
 
     <!-- CARD -->
-    <div class="card shadow-sm">
+    <div class="card shadow-lg">
+
         <div class="card-body p-0">
 
             <div class="table-responsive">
 
-                <table class="table table-hover table-striped mb-0 align-middle">
+                <table class="table table-hover align-middle mb-0">
 
-                    <thead class="table-dark">
+                    <thead class="table-light">
+
                         <tr>
-                            <th>Name</th>
+                            <th class="ps-4">Name</th>
                             <th>Email</th>
                             <th>Current Role</th>
-                            <th>Change Role</th>
+                            <th class="pe-4">Change Role</th>
                         </tr>
+
                     </thead>
 
                     <tbody>
 
                     <?php foreach ($users as $user): ?>
+
                         <tr>
 
-                            <td>
-                                <strong>
-                                    <?php echo $user['first_name'] . ' ' . $user['last_name']; ?>
-                                </strong>
+                            <!-- NAME -->
+                            <td class="ps-4 fw-semibold">
+
+                                <?php echo $user['first_name'] . ' ' . $user['last_name']; ?>
+
                             </td>
 
-                            <td><?php echo $user['email']; ?></td>
-
+                            <!-- EMAIL -->
                             <td>
-                                <span class="badge bg-primary">
+
+                                <?php echo $user['email']; ?>
+
+                            </td>
+
+                            <!-- ROLE -->
+                            <td>
+
+                                <span class="badge rounded-pill bg-primary">
+
+                                    <i class="bi bi-person-badge"></i>
+
                                     <?php echo $user['role_name']; ?>
+
                                 </span>
+
                             </td>
 
-                            <td>
+                            <!-- CHANGE ROLE -->
+                            <td class="pe-4">
 
-                                <form method="POST" class="d-flex gap-2">
+                                <form method="POST"
+                                      class="d-flex gap-2">
 
-                                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                    <input type="hidden"
+                                           name="user_id"
+                                           value="<?php echo $user['id']; ?>">
 
-                                    <select name="role_id" class="form-select form-select-sm">
+                                    <select name="role_id"
+                                            class="form-select form-select-sm rounded-3">
 
                                         <?php foreach ($roles as $role): ?>
+
                                             <option value="<?php echo $role['id']; ?>"
                                                 <?php if ($role['id'] == $user['role_id']) echo 'selected'; ?>>
+
                                                 <?php echo $role['role_name']; ?>
+
                                             </option>
+
                                         <?php endforeach; ?>
 
                                     </select>
 
-                                    <button type="submit" class="btn btn-sm btn-success">
+                                    <button type="submit"
+                                            class="btn btn-success btn-sm rounded-3 px-3">
+
+                                        <i class="bi bi-check-circle"></i>
+
                                         Update
+
                                     </button>
 
                                 </form>
@@ -147,6 +227,7 @@ $roles = $stmt->fetchAll();
                             </td>
 
                         </tr>
+
                     <?php endforeach; ?>
 
                     </tbody>
@@ -156,6 +237,7 @@ $roles = $stmt->fetchAll();
             </div>
 
         </div>
+
     </div>
 
 </div>
