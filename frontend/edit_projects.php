@@ -89,26 +89,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #dfe3e8;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-lg-8">
 
-            <div class="card shadow">
-                <div class="card-body">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-body p-5">
 
                     <!-- Header -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="mb-0">Edit Project</h2>
-                        <a href="projects.php" class="btn btn-outline-dark btn-sm">Back</a>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <h2 class="mb-0 fw-bold" style="color:#198754;">
+                            <i class="bi bi-pencil-square"></i> Edit Project
+                        </h2>
+
+                        <a href="projects.php"
+                           class="btn btn-outline-secondary rounded-3">
+                            Back
+                        </a>
+
                     </div>
 
                     <!-- Message -->
                     <?php if ($message): ?>
-                        <div class="alert alert-info">
+                        <div class="alert alert-info rounded-3 mb-4">
                             <?php echo $message; ?>
                         </div>
                     <?php endif; ?>
@@ -116,68 +152,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <form method="POST">
 
                         <!-- Name -->
-                        <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" name="name" class="form-control"
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-secondary">
+                                Name
+                            </label>
+
+                            <input type="text"
+                                   name="name"
+                                   class="form-control form-control-lg rounded-3"
                                    value="<?php echo htmlspecialchars($project['name']); ?>">
                         </div>
 
                         <!-- Description -->
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea name="description" class="form-control" rows="3"><?php echo htmlspecialchars($project['description']); ?></textarea>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-secondary">
+                                Description
+                            </label>
+
+                            <textarea name="description"
+                                      class="form-control rounded-3"
+                                      rows="4"><?php echo htmlspecialchars($project['description']); ?></textarea>
                         </div>
 
                         <!-- Dates -->
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Start Date</label>
-                                <input type="date" name="start_date" class="form-control"
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-semibold text-secondary">
+                                    Start Date
+                                </label>
+
+                                <input type="date"
+                                       name="start_date"
+                                       class="form-control form-control-lg rounded-3"
                                        value="<?php echo $project['start_date']; ?>">
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">End Date</label>
-                                <input type="date" name="end_date" class="form-control"
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-semibold text-secondary">
+                                    End Date
+                                </label>
+
+                                <input type="date"
+                                       name="end_date"
+                                       class="form-control form-control-lg rounded-3"
                                        value="<?php echo $project['end_date']; ?>">
                             </div>
+
                         </div>
 
                         <!-- Manager -->
-                        <div class="mb-3">
-                            <label class="form-label">Manager</label>
-                            <select name="manager_id" class="form-select">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-secondary">
+                                Manager
+                            </label>
+
+                            <select name="manager_id"
+                                    class="form-select form-select-lg rounded-3">
+
                                 <?php foreach ($managers as $manager): ?>
+
                                     <option value="<?php echo $manager['id']; ?>"
                                         <?php if ($manager['id'] == $project['manager_id']) echo 'selected'; ?>>
+
                                         <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
+
                                     </option>
+
                                 <?php endforeach; ?>
+
                             </select>
                         </div>
 
                         <!-- Status -->
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-select">
-                                <option value="active" <?php if ($project['status'] == 'active') echo 'selected'; ?>>
+                        <div class="mb-5">
+                            <label class="form-label fw-semibold text-secondary">
+                                Status
+                            </label>
+
+                            <select name="status"
+                                    class="form-select form-select-lg rounded-3">
+
+                                <option value="active"
+                                    <?php if (($project['status'] ?? '') == 'active') echo 'selected'; ?>>
                                     Active
                                 </option>
-                                <option value="inactive" <?php if ($project['status'] == 'inactive') echo 'selected'; ?>>
+
+                                <option value="inactive"
+                                    <?php if (($project['status'] ?? '') == 'inactive') echo 'selected'; ?>>
                                     Inactive
                                 </option>
+
                             </select>
                         </div>
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary">
+
+                            <button type="submit"
+                                    class="btn px-4 py-2 rounded-3"
+                                    style="background-color:#198754; color:white;">
+
                                 Update Project
+
                             </button>
 
-                            <a href="projects.php" class="btn btn-outline-secondary">
+                            <a href="projects.php"
+                               class="btn btn-light border px-4 py-2 rounded-3">
+
                                 Cancel
+
                             </a>
+
                         </div>
 
                     </form>

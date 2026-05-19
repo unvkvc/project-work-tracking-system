@@ -81,97 +81,205 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #dfe3e8;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
+<div class="container py-5">
+
     <div class="row justify-content-center">
-        <div class="col-md-8">
 
-            <div class="card shadow">
-                <div class="card-body">
+        <div class="col-lg-8">
 
-                    <h2 class="card-title mb-4">Log Time</h2>
+            <!-- CARD -->
+            <div class="card border-0 shadow-lg rounded-4">
 
+                <div class="card-body p-5">
+
+                    <!-- HEADER -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <h2 class="mb-0 fw-bold text-primary">
+                            <i class="bi bi-stopwatch"></i> Log Time
+                        </h2>
+
+                        <div class="d-flex gap-2">
+
+                            <a href="time_entries.php"
+                               class="btn btn-outline-secondary rounded-3">
+
+                                View Entries
+
+                            </a>
+
+                            <a href="dashboard.php"
+                               class="btn btn-outline-dark rounded-3">
+
+                                Dashboard
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- MESSAGE -->
                     <?php if ($message): ?>
-                        <div class="alert alert-info">
+
+                        <div class="alert alert-info rounded-3 mb-4">
                             <?php echo $message; ?>
                         </div>
+
                     <?php endif; ?>
 
                     <form method="POST">
 
-                        <!-- Task -->
-                        <div class="mb-3">
-                            <label class="form-label">Project / Task</label>
-                            <select name="task_id" class="form-select">
+                        <!-- TASK -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold text-secondary">
+                                Project / Task
+                            </label>
+
+                            <select name="task_id"
+                                    class="form-select form-select-lg rounded-3">
+
                                 <option value="">Select task</option>
+
                                 <?php foreach ($tasks as $task): ?>
+
                                     <option value="<?php echo $task['task_id']; ?>">
+
                                         <?php echo $task['project_name'] . ' - ' . $task['task_name']; ?>
+
                                     </option>
+
                                 <?php endforeach; ?>
+
                             </select>
+
                         </div>
 
-                        <!-- Date -->
-                        <div class="mb-3">
-                            <label class="form-label">Date</label>
-                            <input type="date" name="work_date" class="form-control">
+                        <!-- DATE -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold text-secondary">
+                                Date
+                            </label>
+
+                            <input type="date"
+                                   name="work_date"
+                                   class="form-control form-control-lg rounded-3">
+
                         </div>
 
-                        <!-- Time -->
-                        <div class="mb-3">
-                            <label class="form-label">Hours Worked</label>
+                        <!-- TIME -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold text-secondary">
+                                Hours Worked
+                            </label>
+
                             <div class="row">
-                                <div class="col">
-                                    <select name="hours" class="form-select">
+
+                                <!-- HOURS -->
+                                <div class="col-md-6 mb-3">
+
+                                    <select name="hours"
+                                            class="form-select form-select-lg rounded-3">
+
                                         <?php for ($i = 0; $i <= 12; $i++): ?>
-                                            <option value="<?php echo $i; ?>"><?php echo $i; ?> h</option>
+
+                                            <option value="<?php echo $i; ?>">
+
+                                                <?php echo $i; ?> h
+
+                                            </option>
+
                                         <?php endfor; ?>
+
                                     </select>
+
                                 </div>
-                                <div class="col">
-                                    <select name="minutes" class="form-select">
+
+                                <!-- MINUTES -->
+                                <div class="col-md-6 mb-3">
+
+                                    <select name="minutes"
+                                            class="form-select form-select-lg rounded-3">
+
                                         <option value="0">00 min</option>
                                         <option value="15">15 min</option>
                                         <option value="30">30 min</option>
                                         <option value="45">45 min</option>
+
                                     </select>
+
                                 </div>
+
                             </div>
+
                         </div>
 
-                        <!-- Description -->
-                        <div class="mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea name="description" class="form-control" rows="3"></textarea>
+                        <!-- DESCRIPTION -->
+                        <div class="mb-5">
+
+                            <label class="form-label fw-semibold text-secondary">
+                                Description
+                            </label>
+
+                            <textarea name="description"
+                                      class="form-control rounded-3"
+                                      rows="5"></textarea>
+
                         </div>
 
-                        <!-- Buttons -->
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary">
-                                Save Time
-                            </button>
+                        <!-- BUTTON -->
+                        <button type="submit"
+                                class="btn btn-primary w-100 py-3 rounded-3 fw-semibold">
 
-                            <div>
-                                <a href="time_entries.php" class="btn btn-outline-secondary btn-sm">
-                                    View Entries
-                                </a>
-                                <a href="dashboard.php" class="btn btn-outline-dark btn-sm">
-                                    Dashboard
-                                </a>
-                            </div>
-                        </div>
+                            <i class="bi bi-check-circle"></i> Save Time
+
+                        </button>
 
                     </form>
 
                 </div>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
 <!-- Bootstrap JS -->
@@ -179,4 +287,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 </html>
-
