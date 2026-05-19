@@ -154,6 +154,7 @@ if ($user['role_id'] == 2) {
 
                     </p>
 
+<<<<<<< HEAD
                     <!-- BUTTONS -->
                     <div class="d-grid gap-3">
 
@@ -235,6 +236,17 @@ if ($user['role_id'] == 2) {
 
                 </div>
 >>>>>>> feature/projects-edit
+=======
+                <a href="project_progress.php" class="btn btn-secondary">
+                    See Project Progress
+                </a>
+
+            <?php if ($user['role_id'] == 1): ?>
+                <a href="manage_users.php" class="btn btn-dark">
+                    Manage Users
+                </a>
+            <?php endif; ?>
+>>>>>>> feature/project-progress
 
             </div>
 

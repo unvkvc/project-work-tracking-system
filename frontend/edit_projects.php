@@ -15,7 +15,7 @@ if (!isset($_GET['id'])) {
 $project_id = $_GET['id'];
 $message = '';
 
-// check user role
+// Check user role
 $stmt = $pdo->prepare("SELECT role_id FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
@@ -25,7 +25,7 @@ if ($user['role_id'] != 1 && $user['role_id'] != 2) {
     exit;
 }
 
-// get project
+// Get project
 $stmt = $pdo->prepare("SELECT * FROM projects WHERE id = ?");
 $stmt->execute([$project_id]);
 $project = $stmt->fetch();
@@ -35,8 +35,12 @@ if (!$project) {
     exit;
 }
 
-// get managers
-$stmt = $pdo->query("SELECT id, first_name, last_name FROM users WHERE role_id = 2");
+// Get managers
+$stmt = $pdo->query("
+    SELECT id, first_name, last_name
+    FROM users
+    WHERE role_id = 2
+");
 $managers = $stmt->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -68,10 +72,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 WHERE id = ?
             ");
 
-            $stmt->execute([$name, $description, $start_date, $end_date, $manager_id, $status, $project_id]);
+            $stmt->execute([
+                $name,
+                $description,
+                $start_date,
+                $end_date,
+                $manager_id,
+                $status,
+                $project_id
+            ]);
 
             $message = "Project updated.";
 
+            // Reload updated project
             $stmt = $pdo->prepare("SELECT * FROM projects WHERE id = ?");
             $stmt->execute([$project_id]);
             $project = $stmt->fetch();
@@ -84,8 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Project</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -114,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .form-control:focus,
         .form-select:focus {
-            box-shadow: 0 0 0 0.15rem rgba(13,110,253,.15);
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, .15);
         }
     </style>
 </head>
@@ -160,7 +173,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="text"
                                    name="name"
                                    class="form-control form-control-lg rounded-3"
-                                   value="<?php echo htmlspecialchars($project['name']); ?>">
+                                   value="<?php echo htmlspecialchars($project['name']); ?>"
+                                   required>
                         </div>
 
                         <!-- Description -->
@@ -185,7 +199,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="date"
                                        name="start_date"
                                        class="form-control form-control-lg rounded-3"
-                                       value="<?php echo $project['start_date']; ?>">
+                                       value="<?php echo !empty($project['start_date']) ? date('Y-m-d', strtotime($project['start_date'])) : ''; ?>"
+                                       required>
                             </div>
 
                             <div class="col-md-6 mb-4">
@@ -196,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="date"
                                        name="end_date"
                                        class="form-control form-control-lg rounded-3"
-                                       value="<?php echo $project['end_date']; ?>">
+                                       value="<?php echo !empty($project['end_date']) ? date('Y-m-d', strtotime($project['end_date'])) : ''; ?>">
                             </div>
 
                         </div>
@@ -208,17 +223,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </label>
 
                             <select name="manager_id"
-                                    class="form-select form-select-lg rounded-3">
+                                    class="form-select form-select-lg rounded-3"
+                                    required>
 
                                 <?php foreach ($managers as $manager): ?>
-
                                     <option value="<?php echo $manager['id']; ?>"
                                         <?php if ($manager['id'] == $project['manager_id']) echo 'selected'; ?>>
-
-                                        <?php echo $manager['first_name'] . ' ' . $manager['last_name']; ?>
-
+                                        <?php echo htmlspecialchars($manager['first_name'] . ' ' . $manager['last_name']); ?>
                                     </option>
-
                                 <?php endforeach; ?>
 
                             </select>
@@ -231,7 +243,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </label>
 
                             <select name="status"
-                                    class="form-select form-select-lg rounded-3">
+                                    class="form-select form-select-lg rounded-3"
+                                    required>
 
                                 <option value="active"
                                     <?php if (($project['status'] ?? '') == 'active') echo 'selected'; ?>>
@@ -252,16 +265,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit"
                                     class="btn px-4 py-2 rounded-3"
                                     style="background-color:#198754; color:white;">
-
                                 Update Project
-
                             </button>
 
                             <a href="projects.php"
                                class="btn btn-light border px-4 py-2 rounded-3">
-
                                 Cancel
-
                             </a>
 
                         </div>
@@ -280,4 +289,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 </html>
-
