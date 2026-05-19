@@ -121,7 +121,7 @@ if ($user['role_id'] == 2) {
                 <div class="card shadow-sm">
                     <div class="card-body">
 
-                        <h5 class="mb-3">Your Projects</h5>
+                        <h5 class="mb-3">My Projects</h5>
 
                         <?php if (count($managedProjects) === 0): ?>
                             <p class="text-muted mb-0">
