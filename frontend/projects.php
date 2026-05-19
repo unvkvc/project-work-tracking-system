@@ -205,9 +205,11 @@ $projectProgress = $stmt->fetchAll();
                             if ($progress >= 100) {
                                 $progressColor = 'success';
                             } elseif ($progress >= 50) {
+                                $progressColor = 'info';
+                            } elseif ($progress > 0) {
                                 $progressColor = 'warning';
                             } else {
-                                $progressColor = 'danger';
+                                $progressColor = 'secondary';
                             }
                             ?>
 
