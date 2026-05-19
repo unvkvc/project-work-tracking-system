@@ -50,7 +50,6 @@ if ($user['role_id'] == 2) {
 
 <body class="bg-light">
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">My System</a>
@@ -61,10 +60,8 @@ if ($user['role_id'] == 2) {
     </div>
 </nav>
 
-<!-- MAIN CONTENT -->
 <div class="container py-5">
 
-    <!-- MAIN DASHBOARD CARD -->
     <div class="card shadow-sm mb-4">
         <div class="card-body text-center">
 
@@ -114,7 +111,6 @@ if ($user['role_id'] == 2) {
         </div>
     </div>
 
-    <!-- PROJECT MANAGER CARD -->
     <?php if ($user['role_id'] == 2): ?>
         <div class="row justify-content-center">
             <div class="col-md-7">
