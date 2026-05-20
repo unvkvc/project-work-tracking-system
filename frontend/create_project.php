@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $stmt = $pdo->prepare("
             INSERT INTO projects (name, description, start_date, end_date, manager_id)
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         ");
 
         $stmt->execute([
