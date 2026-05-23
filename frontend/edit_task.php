@@ -79,5 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Update Task</button>
 </form>
 
+<?php if ($user['role_id'] == 3): ?>
+    <a href="log_time.php?task_id=<?php echo $task['id']; ?>"
+       class="btn btn-primary">
+        Log Hours
+    </a>
+<?php endif; ?>
+
 <br>
 <a href="tasks.php">Back to tasks</a>
