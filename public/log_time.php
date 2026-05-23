@@ -175,13 +175,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="">Select task</option>
 
                                 <?php foreach ($tasks as $task): ?>
+                                    <option value="<?php echo $task['task_id']; ?>"
+                                        <?php
+                                            if (
+                                                isset($_GET['task_id']) &&
+                                                $_GET['task_id'] == $task['task_id']
+                                            ) echo 'selected';
+                                        ?>>
 
-                                    <option value="<?php echo $task['task_id']; ?>">
-
-                                        <?php echo $task['project_name'] . ' - ' . $task['task_name']; ?>
+                                <?php echo htmlspecialchars($task['project_name'] . ' - ' . $task['task_name']); ?>
 
                                     </option>
-
                                 <?php endforeach; ?>
 
                             </select>
