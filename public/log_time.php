@@ -180,7 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             if (
                                                 isset($_GET['task_id']) &&
                                                 $_GET['task_id'] == $task['task_id']
-                                            ) echo 'selected';
+                                            ) { 
+                                                echo 'selected';
+                                            }
                                         ?>>
 
                                 <?php echo htmlspecialchars($task['project_name'] . ' - ' . $task['task_name']); ?>
