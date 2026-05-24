@@ -1,5 +1,5 @@
 <?php
-require 'C:\xampp\htdocs\project-work-tracking\backend/db.php';
+require '../backend/db.php';
 
 session_start();
 
