@@ -98,11 +98,22 @@ if ($user['role_id'] == 3) {
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand fw-bold" href="#">
-            <i class="bi bi-kanban"></i> My System
+            <i class="bi bi-kanban"></i> Project Tracker
         </a>
 
-        <div class="ms-auto">
-            <a href="logout.php" class="btn btn-danger btn-sm rounded-3">Logout</a>
+        <div class="ms-auto d-flex align-items-center gap-2">
+
+            <a href="manual.php"
+               class="text-light text-decoration-none"
+               title="Help & Documentation">
+                <i class="bi bi-question-circle"></i>
+            </a>
+
+            <a href="logout.php" class="btn btn-danger btn-sm rounded-3">
+                Logout
+            </a>
+
+</div>
         </div>
     </div>
 </nav>
