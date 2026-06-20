@@ -40,8 +40,14 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
     $description = trim($_POST['description']);
+    $action = $_POST['action'] ?? 'save';
 
     if ($status === $task['status'] && $description === $task['description']) {
+        if ($action === 'save_and_log') {
+            header("Location: log_time.php?task_id=" . $task_id);
+            exit;
+        }
+
         $message = "No changes were made.";
     } else {
         $stmt = $pdo->prepare("
@@ -51,6 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
 
         $stmt->execute([$status, $description, $task_id]);
+
+        if ($action === 'save_and_log') {
+            header("Location: log_time.php?task_id=" . $task_id);
+            exit;
+        }
 
         $message = "Task updated.";
 
@@ -122,9 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <a href="tasks.php"
                            class="btn btn-outline-secondary rounded-3">
-
                             Back
-
                         </a>
 
                     </div>
@@ -152,23 +161,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                 <option value="todo"
                                     <?php if ($task['status'] == 'todo') echo 'selected'; ?>>
-
                                     To do
-
                                 </option>
 
                                 <option value="in_progress"
                                     <?php if ($task['status'] == 'in_progress') echo 'selected'; ?>>
-
                                     In progress
-
                                 </option>
 
                                 <option value="done"
                                     <?php if ($task['status'] == 'done') echo 'selected'; ?>>
-
                                     Done
-
                                 </option>
 
                             </select>
@@ -189,29 +192,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <!-- BUTTONS -->
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center gap-2">
 
                             <button type="submit"
+                                    name="action"
+                                    value="save"
                                     class="btn btn-warning px-4 py-2 rounded-3 fw-semibold">
-
                                 <i class="bi bi-check-circle"></i> Update Task
-
                             </button>
 
                             <?php if ($user['role_id'] == 3): ?>
-                                <a href="log_time.php?task_id=<?php echo $task['id']; ?>"
-                                   class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
-
-                                    <i class="bi bi-clock-history"></i> Log Hours
-
-                                </a>
+                                <button type="submit"
+                                        name="action"
+                                        value="save_and_log"
+                                        class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
+                                    <i class="bi bi-clock-history"></i> Save and Log Hours
+                                </button>
                             <?php endif; ?>
 
                             <a href="tasks.php"
                                class="btn btn-light border px-4 py-2 rounded-3">
-
                                 Cancel
-
                             </a>
 
                         </div>
